@@ -26,9 +26,14 @@ def analyze(code: str):
         }
 
 
-# ✅ 关键：兼容本地 + Railway（不会锁死8080）
+# ✅ 关键：用 Railway 的 PORT
 if __name__ == "__main__":
     import uvicorn
 
-    port = int(os.environ.get("PORT", 8000))  # ✅ Railway会注入PORT
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 8000))  # ← 核心就在这里
+
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=port
+    )
